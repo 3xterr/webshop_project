@@ -10,7 +10,6 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-
 const db = new sqlite3.Database('./mydatabase.db', (err) => {
     if (err) {
         console.error('Connection failed:', err.message);
