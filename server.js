@@ -1,36 +1,48 @@
 const express = require('express');
+const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
-const cors = require('cors');  // connecting CORS
+const cors = require('cors');
 
 const app = express();
 const PORT = 3000;
 
 app.use(cors());
+app.use(express.static(path.join(__dirname, 'public')));
 
-// connecting to db
+
+
 const db = new sqlite3.Database('./mydatabase.db', (err) => {
     if (err) {
-        console.error('Error occured while trying to connect to data base:', err.message);
+        console.error('Connection failed:', err.message);
     } else {
-        console.log('Successfully connected to data base.');
+        console.log('Database connected successfully.');
     }
 });
 
-// path for fetching data
-app.get('/products', (req, res) => {
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'webshop.html'));
+});
+
+
+//app.get('/products', (req, res) => {
+//    res.sendFile(path.join(__dirname, 'webshop.html'));
+//});
+
+app.get('/products-data', (req, res) => {
     const sql = 'SELECT * FROM products';
     db.all(sql, [], (err, rows) => {
         if (err) {
-            console.error(err.message);
-            res.status(500).json({ error: err.message });
-        } else {
-            res.json(rows);
+            console.error('Error fetching data:', err.message);
+            return res.status(500).json({ error: 'Server error' });
         }
+        res.json(rows);
     });
 });
 
-// starting server
-app.listen(PORT, () => {
-    console.log(`Server started on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running at http://192.168.82.231:${PORT}`);
 });
+
+
+
 

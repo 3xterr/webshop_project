@@ -3,15 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
     <title>Web Shop</title>
 </head>
 <body>
-    <h1>Products</h1>
-    <ul id="product-list">
-    </ul>
+    <section id="welcome-section">
+        <h1 id="welcome-message">Welcome to our Webshop!</h1>
+        <p>Scroll down to see our products</p>
+    </section>
 
+    <section id="product-section">
+        <div id="product-title-div"><h1 id="products-list-title">Products</h1></div>
+        <div id="product-div"><ul id="product-list"></ul></div>
+    </section>
     <script>
-        fetch('http://172.20.10.2:3000/products')
+        fetch('http://172.16.115.143:3000/products-data')
             .then(response => response.json())
             .then(data => {
                 const productList = document.getElementById('product-list');
@@ -25,3 +31,4 @@
     </script>
 </body>
 </html>
+
